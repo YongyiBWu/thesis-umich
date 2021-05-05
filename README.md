@@ -25,31 +25,32 @@ thesis-sample.tex.
 
 
 ## VERSIONS:
+
 | Time | Person | Changes |
 | --- | --- |
-| 1988.01.01 | @Jin Ji            | Initial version; reportx.sty
-| 1988.05.19 | @Jin Ji            | Unrecorded changes
-| 1988.12.13 | @Jin Ji            | Corrected table of contents to show
-|            |                    | "CHAPTER" and also \@makecaption
-| 1989.01.08 | @Jin Ji            | Corrections for section headers
-| 1989.11.29 | @?                 | Removed a spurious command
-| 1992.07.24 | @Roque D. Oliveira | Modified \startappendices to work
-|            |                    | with the New Font Selection Scheme.
-| 2008.09.01 | @Jason Gilbert     | Obsolete code removed for
-|            |                    | compatibility with LaTeX2e; list of
-|            |                    | abbreviations added, made copyright
-|            |                    | page cleaner, fixed appendices, 
-|            |                    | bibliography, margins, title page,
-|            |                    | frontispiece, bottom-center page
-|            |                    | numbers, two-side printing, added
-|            |                    | in-dissertation abstract and
-|            |                    | abstract that prints at the end.
-| 2011.04.09 | @Derek Dalle       | Convert rac.sty --> thesis.umich.cls
-| 2019.08.30 | @Umang Varma       | Remove various code that can be found
-|            |                    | in widely available packages. Address
-|            |                    | changes in Rackham guidelines.
-| 2021.05.04 | @Zhan Jiang        | Added comments. Added codes for 
-|            |                    | Roman Chapter numbers in tex file
+| 1988.01.01 | @Jin Ji            | Initial version; reportx.sty |
+| 1988.05.19 | @Jin Ji            | Unrecorded changes |
+| 1988.12.13 | @Jin Ji            | Corrected table of contents to show |
+|            |                    | "CHAPTER" and also \@makecaption |
+| 1989.01.08 | @Jin Ji            | Corrections for section headers |
+| 1989.11.29 | @?                 | Removed a spurious command |
+| 1992.07.24 | @Roque D. Oliveira | Modified \startappendices to work |
+|            |                    | with the New Font Selection Scheme. |
+| 2008.09.01 | @Jason Gilbert     | Obsolete code removed for |
+|            |                    | compatibility with LaTeX2e; list of |
+|            |                    | abbreviations added, made copyright |
+|            |                    | page cleaner, fixed appendices, |
+|            |                    | bibliography, margins, title page, |
+|            |                    | frontispiece, bottom-center page |
+|            |                    | numbers, two-side printing, added |
+|            |                    | in-dissertation abstract and |
+|            |                    | abstract that prints at the end. |
+| 2011.04.09 | @Derek Dalle       | Convert rac.sty --> thesis.umich.cls |
+| 2019.08.30 | @Umang Varma       | Remove various code that can be found |
+|            |                    | in widely available packages. Address |
+|            |                    | changes in Rackham guidelines. |
+| 2021.05.04 | @Zhan Jiang        | Added comments. Added codes for |
+|            |                    | Roman Chapter numbers in tex file |
 
 ## Comments from Umang
 This is a LaTeX template that tries (but does not guarantee) to meet the requirements of the Rackham Graduate School at the University of Michigan.
