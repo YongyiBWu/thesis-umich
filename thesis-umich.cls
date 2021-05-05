@@ -412,12 +412,15 @@
 
 % Command to insert front page matter with styles
 \newcommand{\insertfront}[4]{ %
-  \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} %
+  \begin{minipage}{0.8\textwidth} \vspace{0.9in} \end{minipage} %
   \edef\outsideindent{\the\parindent}% store parindent value
   % Center on the page.
   \begin{center} %
    % Make a minipage.
-   \begin{minipage}{#4\textwidth} %
+   % @Zhan: The minipage environment is not working welll with 
+   % multiple-page texts. Hence, I removed the minipage environment.
+   % Feel free to uncomment the following line if you think it is useful
+   %\begin{minipage}{#4\textwidth} % 
     \setlength{\parindent}{\outsideindent}
     % Required to use 1.5-spacing for dissertation.
     \if@umich@thesis %
@@ -436,9 +439,8 @@
        \begin{center} \textbf{\uppercase{#3}} \end{center} %
     }{}    % Insert the text.
     }
-
     #1 %
-   \end{minipage} %
+  %   \end{minipage} %
   \end{center} %
 }
 
