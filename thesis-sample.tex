@@ -1,5 +1,14 @@
 \documentclass[thesis]{thesis-umich}
 
+
+%%%% THE FOLLOWING PACKAGE IS FOR TEST USE ONLY %%%%
+%%%% PLEASE DELETE %%%%
+%%%% PLEASE DELETE %%%%
+%%%% PLEASE DELETE %%%%
+\usepackage{lipsum}
+%%%%
+
+
 \title{\LaTeX\ Template for Rackham Dissertations}
 
 % Author name
@@ -65,6 +74,16 @@
   With walk through basic steps of using this \LaTeX\ template.
 }
 
+% Codes to generate chapters in roman numerals while keep (sub-)section
+% in arabic numerals.
+% For example, the following code will generate
+%    Chapter I
+%        Section 1.1
+\renewcommand{\thechapter}{\Roman{chapter}} %
+\renewcommand{\thesection}{\arabic{chapter}.\arabic{section}} %
+\renewcommand{\thesubsection}{\arabic{chapter}.\arabic{section}.\arabic{subsection}} %
+%
+
 \begin{document}
 
 \chapter{Using This Template}
@@ -86,8 +105,11 @@ do?'' on \TeX\ StackOverflow} and
 \href{https://tug.org/pipermail/tugindia/2002-January/000178.html}{``Makeatletter
 and Makeatother'' on the \TeX\ Users Group} for more information).
 
-Finally, you should be able to use your preferred bibliography manager (BibTex, BibLaTeX, NatBib, etc.). If the \texttt{\textbackslash bibliography} command is giving you trouble, look in \texttt{thesis-umich.cls}, because it was modified there. You can also look at that code for help with formatting bibliographies that are displayed with other commands.
+Finally, you should be able to use your preferred bibliography manager (BibTex, BibLaTeX, NatBib, etc.). If the \texttt{\textbackslash bibliography} command is causing trouble, look in \texttt{thesis-umich.cls}, because it was modified there. You can also look at that code for help with formatting bibliographies that are displayed with other commands.
 
+\chapter{Lipsum Test Text Chapter}
+\section{Lipsum test text section}
+\lipsum[1]
 
 
 \appendix

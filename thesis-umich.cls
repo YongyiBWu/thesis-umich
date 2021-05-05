@@ -49,6 +49,8 @@
 %%  2019.08.30 @Umang Varma       : Remove various code that can be found
 %%                                  in widely available packages. Address
 %%                                  changes in Rackham guidelines.
+%%  2021.05.04 @Zhan Jiang        : Added comments. Added codes for 
+%%                                  Roman Chapter numbers in tex file
 %%
 
 %% ---- HEADERS --------------------------------------------------------
@@ -674,7 +676,8 @@
  % First add some vertical space.
  \vskip 1ex plus 1pt minus 1pt
  % Format the spacing and use dots between title and number.
- \@dottedtocline{1}{0em}{1.0em} %
+ % Usage: dottedtocline{title level}{left margin}{number width}
+ \@dottedtocline{1}{0em}{2.0em} %
  % This sets the formatting for the chapter name and page number.
  {\textbf{#1}}{\textbf{#2}} %
  % Add some space below, too.
