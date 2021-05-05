@@ -173,9 +173,6 @@
 % This is the package for special headers and footers.
 \RequirePackage{fancyhdr}
 
-% This package is used for skippings between paragraphs
-\RequirePackage{parskip}
-
 % This package will allow for some sections to be in
 % different numbers of columns.
 \if@umich@report
@@ -413,15 +410,15 @@
 % Command to insert front page matter with styles
 \newcommand{\insertfront}[4]{ %
   \begin{minipage}{0.8\textwidth} \vspace{0.9in} \end{minipage} %
-  \edef\outsideindent{\the\parindent}% store parindent value
+  %\edef\outsideindent{\the\parindent}% store parindent value
   % Center on the page.
-  \begin{center} %
+  % \begin{center} %
    % Make a minipage.
    % @Zhan: The minipage environment is not working welll with 
    % multiple-page texts. Hence, I removed the minipage environment.
    % Feel free to uncomment the following line if you think it is useful
    %\begin{minipage}{#4\textwidth} % 
-    \setlength{\parindent}{\outsideindent}
+    % \setlength{\parindent}{\outsideindent}
     % Required to use 1.5-spacing for dissertation.
     \if@umich@thesis %
      \onehalfspacing %
@@ -439,9 +436,10 @@
        \begin{center} \textbf{\uppercase{#3}} \end{center} %
     }{}    % Insert the text.
     }
+
     #1 %
   %   \end{minipage} %
-  \end{center} %
+  %\end{center} %
 }
 
 %% ---- COMMANDS TO HIDE/SHOW FRONT PAGES ------------------------------
