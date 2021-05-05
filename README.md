@@ -27,7 +27,7 @@ thesis-sample.tex.
 ## VERSIONS:
 
 | Time | Person | Changes |
-| --- | --- |
+| --- | --- | --- |
 | 1988.01.01 | @Jin Ji            | Initial version; reportx.sty |
 | 1988.05.19 | @Jin Ji            | Unrecorded changes |
 | 1988.12.13 | @Jin Ji            | Corrected table of contents to show |
