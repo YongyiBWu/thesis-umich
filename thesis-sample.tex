@@ -9,7 +9,7 @@
 %%%%
 
 
-\title{\LaTeX\ Template for Rackham Dissertations}
+\title{\LaTeX~Template for Rackham Dissertations}
 
 % Author name
 \author{Jane R. Doe}
@@ -22,6 +22,8 @@
 % Year of completion
 \year=2019
 
+
+% For each command below, if the page is not needed, comment out the whole command
 \dedication{
   This manual is dedicated to all doctoral students at the University of
   Michigan's Horace H. Rackham School of Graduate Studies.
@@ -32,8 +34,7 @@
 }
 
 \preface{
-  This disseration is a sample document using the \texttt{thesis-umich.cls}
-  template.
+  This is a joint work of several people.
 }
 
 \committee{
@@ -45,7 +46,21 @@
   Associate Professor Horace H. Rackham
 }
 
-% Commands to hide or show lists of figures, tables, etc.
+\foreword{
+  This disseration is a sample document using the \texttt{thesis-umich.cls}
+  template.
+}
+
+\prologue{
+  Feel free to write your own master piece.
+}
+% End For
+
+
+
+
+% Commands to hide or show copyright, lists of figures, tables, etc.
+\showcopyright
 %\showlistoffigures
 %\showlistoftables
 %\showlistofmaps
@@ -54,15 +69,7 @@
 %\showlistofabbreviations
 %\showlistofacronyms
 %\showlistofsymbos
-% OR
-\hidelistoffigures
-\hidelistoftables
-\hidelistofmaps
-\hidelistofillustrations
-%\hidelistofappendices
-\hidelistofabbreviations
-\hidelistofacronyms
-\hidelistofsymbols
+
 
 % Definition of any abbreviations used.
 %\abbreviations{
@@ -71,7 +78,7 @@
 
 % Some abstract text
 \abstract{
-  With walk through basic steps of using this \LaTeX\ template.
+  With walk through basic steps of using this \LaTeX~template.
 }
 
 % Codes to generate chapters in roman numerals while keep (sub-)section

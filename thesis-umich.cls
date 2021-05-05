@@ -51,6 +51,8 @@
 %%                                  changes in Rackham guidelines.
 %%  2021.05.04 @Zhan Jiang        : Added comments. Added codes for 
 %%                                  Roman Chapter numbers in tex file
+%%  2021.05.05 @Zhan Jiang        : Debugged Prologue Page. Eliminated all 
+%%                                  compiling warnings.
 %%
 
 %% ---- HEADERS --------------------------------------------------------
@@ -85,9 +87,7 @@
 
 % Set the default value of some of the options to true.
 \@umich@thesistrue
-\@umich@listoffigurestrue
-\@umich@listoftablestrue
-\@umich@copyrighttrue
+
 
 % This makes an option for bibliography backrefs.
 \newif\if@umich@backref
@@ -172,6 +172,9 @@
 
 % This is the package for special headers and footers.
 \RequirePackage{fancyhdr}
+
+% This package is used for skippings between paragraphs
+\RequirePackage{parskip}
 
 % This package will allow for some sections to be in
 % different numbers of columns.
@@ -297,13 +300,15 @@
    \begin{onehalfspacing}
     % Insert the title.
     {\large\bfseries\inserttitle} %
-   \end{onehalfspacing} \\[4ex] %
+   \end{onehalfspacing}\\
+   \vspace{4ex} %
    % Vertical rubber space
 %   \vfill %
    % Print the word 'by'.
-   by \\[2ex] %
+   by\\
+   \vspace{2ex} %
    % Insert the author
-   \insertauthor \\ %
+   \insertauthor\\ %
    % More rubber space
    \vfill %
    % Text from guidelines
@@ -322,11 +327,12 @@
   % Non-justified content
   \begin{flushleft}
    % Heading for the committee
-   Doctoral Committee: \\[2ex] %
+   Doctoral Committee: \\
+   \vspace{2ex} %
    % Horizontal spacing
    \hspace{0.5in} %
    % Insert the committee (in a box).
-   \parbox{4.2in}{\insertcommittee}
+   \parbox{5in}{\insertcommittee}
   \end{flushleft} %
  \end{singlespace} %
 }
@@ -406,7 +412,7 @@
 
 % Command to insert front page matter with styles
 \newcommand{\insertfront}[4]{ %
-  \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
+  \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} %
   \edef\outsideindent{\the\parindent}% store parindent value
   % Center on the page.
   \begin{center} %
@@ -445,15 +451,6 @@
 \newcommand{\showforeword}{\@umich@forewordtrue}
 \newcommand{\showprologue}{\@umich@prologuetrue}
 \newcommand{\showabstract}{\@umich@abstracttrue}
-
-% Commands to hide front pages
-\newcommand{\hidecopyright}{\@umich@copyrightfalse}
-\newcommand{\hidededication}{\@umich@dedicationfalse}
-\newcommand{\hideacknowledgments}{\@umich@acknowledgmentsfalse}
-\newcommand{\hidepreface}{\@umich@prefacefalse}
-\newcommand{\hideforeword}{\@umich@forewordfalse}
-\newcommand{\hideprologue}{\@umich@prologuefalse}
-\newcommand{\hideabstract}{\@umich@abstractfalse}
 
 
 %% ---- DEDICATION PAGE ------------------------------------------------
@@ -622,7 +619,7 @@
  % Show the prologue.
  \showprologue %
  % Set the prologue text.
- \renewcommand{\@foreword}{#2} %
+ \renewcommand{\@prologue}{#2} %
  % Set the prologue style.
  \ifthenelse{\equal{#1}{}}{}{ %
   \renewcommand{\@prologuestyle}{#1}}}
@@ -658,16 +655,6 @@
 \newcommand{\showlistofabbreviations}{\@umich@listofabbrevstrue}
 \newcommand{\showlistofacronyms}{\@umich@listofacronymstrue}
 \newcommand{\showlistofsymbols}{\@umich@listofsymbolstrue}
-
-% Commands to hide each of the lists
-\newcommand{\hidelistoffigures}{\@umich@listoffiguresfalse}
-\newcommand{\hidelistoftables}{\@umich@listoftablesfalse}
-\newcommand{\hidelistofmaps}{\@umich@listofmapsfalse}
-\newcommand{\hidelistofillustrations}{\@umich@listofillustrationsfalse}
-\newcommand{\hidelistofappendices}{\@umich@listofappendicesfalse}
-\newcommand{\hidelistofabbreviations}{\@umich@listofabbrevsfalse}
-\newcommand{\hidelistofacronyms}{\@umich@listofacronymsfalse}
-\newcommand{\hidelistofsymbols}{\@umich@listofsymbolsfalse}
 
 
 %% ---- TABLE OF CONTENTS ----------------------------------------------
@@ -1057,11 +1044,9 @@
 \fi
 
 % Command to hide abstract page number
-\newcommand{\hideabstractpagenumber}{ %
- \@abstract@pagenofalse}
+\newcommand{\hideabstractpagenumber}{\@abstract@pagenofalse}
 % Command to show abstract page number
-\newcommand{\showbstractpagenumber}{ %
- \@abstract@pagenotrue}
+\newcommand{\showbstractpagenumber}{\@abstract@pagenotrue}
 
 % Format the abstract page.
 \newcommand{\abstractpage}{ %
@@ -1075,13 +1060,13 @@
  % Add this page to the table of contents.
  \phantomsection\addcontentsline{toc}{chapter}{Abstract} %
  % Extra vertical space
- \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
+ \begin{minipage}{0.8\textwidth} \vspace{0.9in} \end{minipage} %
  % Center the title area.
  \begin{center} %
   % Formatting
   \bfseries
   % Add the heading.
-  ABSTRACT \\[5ex] %
+  ABSTRACT \\ \vspace{5ex} %
   % Add the title of the dissertation.
   \normalsize %
  \end{center} %
