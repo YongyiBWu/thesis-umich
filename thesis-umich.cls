@@ -1107,6 +1107,7 @@
  \@tex@bibliography{#1} %
 }
 
+% FIXME: follow a similar approach as above and redefine the printbibliography command
 % Create a new command for printing the bibliography with biblatex
 \newcommand*{\bibsection}{ %
  % Update the page format.
@@ -1123,6 +1124,7 @@
  \phantomsection %
  % Add to table of contents.
  \addcontentsline{toc}{chapter}{Bibliography} %
+ % FIXME: why print our own heading?
  \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
  \center{\bfseries BIBLIOGRAPHY}
  % Load the bibliography.

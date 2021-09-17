@@ -22,23 +22,7 @@
 % Year of completion
 \year=2019
 
-
-% For each command below, if the page is not needed, comment out the whole command
-\dedication{
-  This manual is dedicated to all doctoral students at the University of
-  Michigan's Horace H. Rackham School of Graduate Studies.
-}
-
-\acknowledgments{
-  This template has been modified by a lot of people over the years. To the best of my knowledge, it's original version was written by Jin Ji in 1988. Modifications to it have since been made by Roque D.\ Oliveira in 1992, Jason Gilbert  in 2008, Derek Dalle in 2011, and Umang Varma in 2019. It is possible that other people have modified this document (in fact, there is a unattributed change in the changelog dated 1989.11.29).
-
-  \lipsum[1-4]
-}
-
-\preface{
-  This is a joint work of several people.
-}
-
+% Committee members
 \committee{
   Professor John D. Brown, Co-Chair,\\
   Professor Emeritus Ann A. Smith, Co-Chair\\
@@ -48,17 +32,29 @@
   Associate Professor Horace H. Rackham
 }
 
+% For each command below, if the page is not needed, comment out the whole command
+\dedication{
+  This manual is dedicated to all doctoral students at the University of
+  Michigan's Horace H. Rackham School of Graduate Studies.
+}
+
+\acknowledgments{
+  This template has been modified by a lot of people over the years. To the best of my knowledge, its original version was written by Jin Ji in 1988. Modifications to it have since been made by Roque D.\ Oliveira in 1992, Jason Gilbert  in 2008, Derek Dalle in 2011, and Umang Varma in 2019. It is possible that other people have modified this document (in fact, there is an unattributed change in the changelog dated 1989.11.29).
+}
+
+\preface{
+  This is a joint work of several people.
+}
+
 \foreword{
-  This disseration is a sample document using the \texttt{thesis-umich.cls}
+  This dissertation is a sample document using the \texttt{thesis-umich.cls}
   template.
 }
 
 \prologue{
-  Feel free to write your own master piece.
+  Feel free to write your own masterpiece.
 }
 % End For
-
-
 
 
 % Commands to hide or show copyright, lists of figures, tables, etc.
@@ -68,15 +64,15 @@
 %\showlistofmaps
 %\showlistofillustrations
 \showlistofappendices
-%\showlistofabbreviations
-%\showlistofacronyms
+\showlistofabbreviations
+\showlistofacronyms
 %\showlistofsymbos
 
-
+% TODO: this doesn't show in list of abbreviations or list of acronyms
 % Definition of any abbreviations used.
-%\abbreviations{
-% \acro{LS&A}{Literature Science and Arts}
-%}
+\abbreviations{
+ \acro{LS&A}{Literature Science and Arts}
+}
 
 % Some abstract text
 \abstract{
@@ -138,6 +134,7 @@ as a sort of extension to the Table of Contents.
 \nocite{*}
 
 
+% TODO: support biber
 \bibliographystyle{alpha}
 \bibliography{thesis-bib}
 
