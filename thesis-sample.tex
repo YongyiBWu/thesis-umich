@@ -65,13 +65,13 @@
 %\showlistofillustrations
 \showlistofappendices
 \showlistofabbreviations
-\showlistofacronyms
+%\showlistofacronyms % Build errors can occur if an empty list is turned on
 %\showlistofsymbos
 
-% TODO: this doesn't show in list of abbreviations or list of acronyms
 % Definition of any abbreviations used.
 \abbreviations{
- \acro{LS&A}{Literature Science and Arts}
+ \acro{ABBREV1}{abbreviation 1}
+ \acro{ABBREV2}{abbreviation 2}
 }
 
 % Some abstract text
@@ -112,6 +112,8 @@ and Makeatother'' on the \TeX\ Users Group} for more information).
 
 Finally, you should be able to use your preferred bibliography manager (BibTex, BibLaTeX, NatBib, etc.). If the \texttt{\textbackslash bibliography} command is causing trouble, look in \texttt{thesis-umich.cls}, because it was modified there. You can also look at that code for help with formatting bibliographies that are displayed with other commands.
 
+\chapter{Using Abbreviation/Acronym/Symbol}
+The list of abbreviations is initialized before we begin the document in \texttt{.tex} file. The word \ac{ABBREV1} is mentioned here, so it appears in the list of abbreviations. Referring to \ac{ABBREV1} a second time shows only the abbreviation. Unmentioned items in the initialization of "abbreviations" is not listed. 
 \chapter{Lipsum Test Text Chapter}
 \section{Lipsum test text section}
 \lipsum[1]
