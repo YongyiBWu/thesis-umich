@@ -5,9 +5,11 @@
 %%%% PLEASE DELETE %%%%
 %%%% PLEASE DELETE %%%%
 %%%% PLEASE DELETE %%%%
-\usepackage{lipsum}
+\usepackage{kantlipsum}
 %%%%
 
+% includeonly controls partial output (only chapters included are built)
+\includeonly{chap1,chap2,appendix1}
 
 \title{\LaTeX~Template for Rackham Dissertations}
 
@@ -17,10 +19,10 @@
 \orcidid{9999-9999-9999-9999}
 
 % Department
-\department{Mathematics}
+\department{Physics}
 
 % Year of completion
-\year=2019
+\year=2022
 
 % Committee members
 \committee{
@@ -33,25 +35,29 @@
 }
 
 % For each command below, if the page is not needed, comment out the whole command
-\dedication{
+% number in the square bracket specifies the foramt of the title.
+% Style 2: simple bold italic heading
+% Style 3: Spread caps heading
+% Style 4: 2022 ver. simple bold, no italics
+\dedication[4]{
   This manual is dedicated to all doctoral students at the University of
   Michigan's Horace H. Rackham School of Graduate Studies.
 }
 
-\acknowledgments{
+\acknowledgments[4]{
   This template has been modified by a lot of people over the years. To the best of my knowledge, its original version was written by Jin Ji in 1988. Modifications to it have since been made by Roque D.\ Oliveira in 1992, Jason Gilbert  in 2008, Derek Dalle in 2011, and Umang Varma in 2019. It is possible that other people have modified this document (in fact, there is an unattributed change in the changelog dated 1989.11.29).
 }
 
-\preface{
+\preface[4]{
   This is a joint work of several people.
 }
 
-\foreword{
+\foreword[4]{
   This dissertation is a sample document using the \texttt{thesis-umich.cls}
   template.
 }
 
-\prologue{
+\prologue[4]{
   Feel free to write your own masterpiece.
 }
 % End For
@@ -59,14 +65,16 @@
 
 % Commands to hide or show copyright, lists of figures, tables, etc.
 \showcopyright
-%\showlistoffigures
-%\showlistoftables
+\showlistoffigures
+\showlistoftables
 %\showlistofmaps
 %\showlistofillustrations
 \showlistofappendices
 \showlistofabbreviations
 %\showlistofacronyms % Build errors can occur if an empty list is turned on
 %\showlistofsymbos
+
+\usereferencesperchapter
 
 % Definition of any abbreviations used.
 \abbreviations{
@@ -84,60 +92,17 @@
 % For example, the following code will generate
 %    Chapter I
 %        Section 1.1
-\renewcommand{\thechapter}{\Roman{chapter}} %
+\renewcommand{\thechapter}{\arabic{chapter}} %
+%\renewcommand{\thechapter}{\Roman{chapter}} %
 \renewcommand{\thesection}{\arabic{chapter}.\arabic{section}} %
-\renewcommand{\thesubsection}{\arabic{chapter}.\arabic{section}.\arabic{subsection}} %
-%
+\renewcommand{\thesubsection}{\arabic{chapter}.\arabic{section}.\arabic{subsection}} %%
 
 \begin{document}
-
-\chapter{Using This Template}
-The approach to this template is to result in \LaTeX~source files (i.e.,
-\texttt{.tex} files) that are as simple as possible.  This is particularly
-useful for the first few pages, for example the title page, dedication, and
-abstract page, which are difficult to make in \LaTeX~and are supposed to go in
-a certain order.
-
-You are welcome to modify \texttt{thesis-umich.cls} to suit your needs or keep
-up with modifications to Rackham guidelines. I used this template to submit my
-dissertation in 2019, but Rackham can change their rules at any time. If you
-have not modified a \texttt{.cls} file before, but know how to define commands
-in \TeX, you should not have much trouble, apart from the sneaky \verb=@=
-character, which behaves like a letter in \texttt{.cls} files but not in
-\texttt{.tex} (see \href{https://tex.stackexchange.com/q/8351/21027}{``What do
-  \texttt{\textbackslash makeatletter} and \texttt{\textbackslash makeatother}
-do?'' on \TeX\ StackOverflow} and
-\href{https://tug.org/pipermail/tugindia/2002-January/000178.html}{``Makeatletter
-and Makeatother'' on the \TeX\ Users Group} for more information).
-
-Finally, you should be able to use your preferred bibliography manager (BibTex, BibLaTeX, NatBib, etc.). If the \texttt{\textbackslash bibliography} command is causing trouble, look in \texttt{thesis-umich.cls}, because it was modified there. You can also look at that code for help with formatting bibliographies that are displayed with other commands.
-
-\chapter{Using Abbreviation/Acronym/Symbol}
-The list of abbreviations is initialized before we begin the document in \texttt{.tex} file. The word \ac{ABBREV1} is mentioned here, so it appears in the list of abbreviations. Referring to \ac{ABBREV1} a second time shows only the abbreviation. Unmentioned items in the initialization of "abbreviations" is not listed. 
-\chapter{Lipsum Test Text Chapter}
-\section{Lipsum test text section}
-\lipsum[1]
-
+\include{chap1}
+\include{chap2}
+\include{chap3}
 
 \appendix
-\chapter{Example Appendix}
-
-\section{Lists Including the Appendices}
-The command
-\begin{verbatim}
-\showlistofappendices
-\end{verbatim}
-must appear in the preamble if there are more than one appendices.  For
-some reason, Rackham does not want the individual appendices and their
-sections to appear in the Table of Contents, so a special List of
-Appendices page (which must occur in the Table of Contents!) is required
-as a sort of extension to the Table of Contents.
-
-\nocite{*}
-
-
-% TODO: support biber
-\bibliographystyle{alpha}
-\bibliography{thesis-bib}
+\include{appendix1}
 
 \end{document}

@@ -53,6 +53,17 @@
 %%                                  Roman Chapter numbers in tex file
 %%  2021.05.05 @Zhan Jiang        : Debugged Prologue Page. Eliminated all 
 %%                                  compiling warnings.
+%%  2022.03.22 @Yongyi Wu         : Changes to match the 2022 guidelines
+%%                                  (title fonts, spacing, margins, etc.);
+%%                                  closely matches the official MS Word 
+%%                                  template now. Improved TOC and lists.
+%%                                  Bibliography changed to references for
+%%                                  each chapter, better matching the need
+%%                                  for conventions in physics. References 
+%%                                  are using the style of apsrev4-2, with 
+%%                                  the only change that 3+ authors show
+%%                                  "1st author, et al." in this .bst file
+%%                                  
 %%
 
 %% ---- HEADERS --------------------------------------------------------
@@ -84,6 +95,7 @@
 \newif\if@umich@prologue
 \newif\if@umich@foreword
 \newif\if@umich@abstract
+\newif\if@umich@referencesperchapter
 
 % Set the default value of some of the options to true.
 \@umich@thesistrue
@@ -179,12 +191,20 @@
  \RequirePackage{multicol}
 \fi
 
-% indent first paragraphs
+% indent first (and all) paragraphs by 0.5 inch
 \RequirePackage{indentfirst}
+\setlength\parindent{0.5in} 
 
 % subtle corrections to white space that make the document much easier to read
 \RequirePackage{microtype}
 
+% subtle corrections to white space that make the document much easier to read
+\RequirePackage{caption}
+\captionsetup{font={small,singlespacing}}
+
+% use thispackage if references for each chapter
+\RequirePackage[numbers,square,sectionbib]{natbib} 
+\RequirePackage{chapterbib} 
 
 %% ---- FORMATTING -----------------------------------------------------
 % Set the page style to fancy.
@@ -285,19 +305,24 @@
 % This redefines the title page to automatically have all of the
 % features and properties that it should according to the guidelines.
 \renewcommand*{\titlepage}{
+ \if@umich@thesis %set exact 2.5in margin on title page
+  \newgeometry{left=1in,top=2.5in,body={6.5in,7in}}
+ \fi
  % Insert the titlepage formatting.
  \ttlpg %
  % Use single-spaced lines for the title page.
  \begin{singlespace} %
-  % Move down the page slightly.
-  \hbox{\vspace{1.1in}} %
+  % Move down the page slightly. Only for report version.
+  \if@umich@report
+   \hbox{\vspace{1.1in}} %
+  \fi
   % Center the title page as well.
   \begin{center} %
    % Put the title itself in 1.5-spaced format.
    \begin{onehalfspacing}
     % Insert the title.
-    {\large\bfseries\inserttitle} %
-   \end{onehalfspacing}\\
+    {\Large\bfseries\inserttitle\par}%chaanged to make spacing work
+   \end{onehalfspacing}
    \vspace{4ex} %
    % Vertical rubber space
 %   \vfill %
@@ -325,13 +350,16 @@
   \begin{flushleft}
    % Heading for the committee
    Doctoral Committee: \\
-   \vspace{2ex} %
+   \vspace{1.4\baselineskip} %
    % Horizontal spacing
    \hspace{0.5in} %
    % Insert the committee (in a box).
    \parbox{5in}{\insertcommittee}
   \end{flushleft} %
  \end{singlespace} %
+ \if@umich@thesis %resume geometry
+  \newgeometry{margin=1in,left=1in,headheight=0.5\baselineskip}
+ \fi
 }
 
 
@@ -431,12 +459,19 @@
     }{ %
     \ifthenelse{\equal{#2}{3}}{ %
      % Style 3: Spread caps heading
-    % Larger upper margin for first page of front matter
+     % Larger upper margin for first page of front matter
        % Heading
-       \begin{center} \textbf{\uppercase{#3}} \end{center} %
-    }{}    % Insert the text.
+     \begin{center} \textbf{\uppercase{#3}} \end{center} %
+    }{ %
+    \ifthenelse{\equal{#2}{4}}{ %
+     % Style 4: 2022 ver. simple bold, no italics
+     % Larger upper margin for first page of front matter
+     \begin{center} \textbf{#3} \end{center} %
+     }{}   
+    }    % Insert the text.
     }
-
+    \vspace{-2.5ex}
+    \vskip 0.5in
     #1 %
   %   \end{minipage} %
   %\end{center} %
@@ -655,25 +690,50 @@
 \newcommand{\showlistofabbreviations}{\@umich@listofabbrevstrue}
 \newcommand{\showlistofacronyms}{\@umich@listofacronymstrue}
 \newcommand{\showlistofsymbols}{\@umich@listofsymbolstrue}
+\newcommand{\usereferencesperchapter}{\@umich@referencesperchaptertrue}
 
 
 %% ---- TABLE OF CONTENTS ----------------------------------------------
+
+% Slightly different version than \@chapter@appendix[#1]#2 
+% with word "Chapter" added for each chapter number in the toc
+% See https://tex.stackexchange.com/questions/579756/how-to-add-chapter-before-chapter-number
+\def\@chapter[#1]#2{
+ \ifnum \c@secnumdepth >\m@ne
+  \refstepcounter{chapter}%
+  \typeout{\@chapapp\space\thechapter.}%
+  \phantomsection
+  \addcontentsline{toc}{chapter}
+  {\@chapapp\ \thechapter\ \hspace{0.5em} #1}
+ \else
+  \addcontentsline{toc}{chapter}{#1}%
+ \fi
+ \chaptermark{#1}%
+ \if@twocolumn
+  \@topnewpage[\@makechapterhead{#2}]%
+ \else
+  \@makechapterhead{#2}%
+  \@afterheading
+ \fi}
+
 % This sets the formatting for chapter entries in the table of contents.
 \renewcommand*\l@chapter[2]{ %
  % First add some vertical space.
- \vskip 1ex plus 1pt minus 1pt
+ %\vskip 1ex plus 1pt minus 1pt
  % Format the spacing and use dots between title and number.
  % Usage: dottedtocline{title level}{left margin}{number width}
- \@dottedtocline{1}{0em}{2.0em} %
+ \@dottedtocline{1}{0em}{1.2em} %
  % This sets the formatting for the chapter name and page number.
- {\textbf{#1}}{\textbf{#2}} %
+ %{\textbf{#1}}{\textbf{#2}} %
+ {#1}{#2} % use normal font for all. no boldface needed
  % Add some space below, too.
- \vskip 1ex}
+ %\vskip 1ex}
+}
 
 % These lines set the spacing for other table of contents entries.
-\renewcommand*{\l@section}{\@dottedtocline{2}{2.5em}{2em}}
-\renewcommand*{\l@subsection}{\@dottedtocline{3}{5.0em}{2.8em}}
-\renewcommand*{\l@subsubsection}{\@dottedtocline{4}{7.5em}{3.5em}}
+\renewcommand*{\l@section}{\@dottedtocline{2}{1.25em}{2em}}
+\renewcommand*{\l@subsection}{\@dottedtocline{3}{2.5em}{2.8em}}
+\renewcommand*{\l@subsubsection}{\@dottedtocline{4}{3.75em}{3.6em}}
 
 % Number of section layers to show in table of contents
 \setcounter{tocdepth}{3}
@@ -695,13 +755,14 @@
   \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
  \fi %
  % Add the title
- \centerline{\large\bf TABLE OF CONTENTS} %
+ % \centerline{\large\bf TABLE OF CONTENTS} %
+ \centerline{\bf Table of Contents} % 2022 ver.
  % Add some space after the title.
- \vspace{2ex} %
+ \vskip 0.5in %
  % Start the automatic table of contents features.
- \begin{singlespace} %
+ \begin{onehalfspacing} %
   \@starttoc{toc}\if@restonecol\twocolumn\fi %
- \end{singlespace} %
+ \end{onehalfspacing} %
 }
 
 
@@ -722,15 +783,16 @@
   \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
  \fi %
  % Add the title
- \centerline{\large\bf LIST OF FIGURES}
+ % \centerline{\large\bf LIST OF FIGURES}
+ \centerline{\bf List of Figures} % 2022 ver.
  % Add some space after the title.
- \vspace{2em} %
- \ \\
+ \vskip 0.5in %
+ % \ \\
  % Start the automatic table of contents features.
- \noindent FIGURE
- \begin{singlespace} %
+ % \noindent Figure
+ \begin{onehalfspace} %
   \@starttoc{lof}\if@restonecol\twocolumn\fi %
- \end{singlespace} %
+ \end{onehalfspace} %
 }
 
 
@@ -751,15 +813,16 @@
   \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
  \fi %
  % Add the title
- \centerline{\large\bf LIST OF TABLES} %
+ % \centerline{\large\bf LIST OF TABLES} %
+ \centerline{\bf List of Tables} % 2022 ver.
  % Add some space after the title.
- \vspace{2em} %
- \ \\
+ \vskip 0.5in %
+ % \ \\
  % Start the automatic table of contents features.
- \noindent TABLE
- \begin{singlespace} %
+ % \noindent Table
+ \begin{onehalfspace} %
   \@starttoc{lot}\if@restonecol\twocolumn\fi %
- \end{singlespace} %
+ \end{onehalfspace} %
 }
 
 
@@ -785,13 +848,14 @@
   \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
  \fi %
  % Add the title
- \centerline{\large\bf LIST OF MAPS} %
+ % \centerline{\large\bf LIST OF MAPS} %
+ \centerline{\bf List of Maps} % 2022 ver.
  % Add some space after the title.
- \vspace{1ex} %
+ \vskip 0.5in %
  % Start the automatic table of contents features.
- \begin{singlespace} %
+ \begin{onehalfspace} %
   \@starttoc{lom}\if@restonecol\twocolumn\fi %
- \end{singlespace} %
+ \end{onehalfspace} %
 }
 
 
@@ -817,13 +881,14 @@
   \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
  \fi %
  % Add the title
- \centerline{\large\bf LIST OF ILLUSTRATIONS} %
+ % \centerline{\large\bf LIST OF ILLUSTRATIONS} %
+ \centerline{\bf List of Illustrations} % 2022 ver.
  % Add some space after the title.
- \vspace{1ex} %
+ \vskip 0.5in %
  % Start the automatic table of contents features.
- \begin{singlespace} %
+ \begin{onehalfspace} %
   \@starttoc{loi}\if@restonecol\twocolumn\fi %
- \end{singlespace} %
+ \end{onehalfspace} %
 }
 
 
@@ -847,13 +912,14 @@
   \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
  \fi %
  % Add the title
- \centerline{\large\bf LIST OF APPENDICES} %
+ % \centerline{\large\bf LIST OF APPENDICES} %
+ \centerline{\bf List of Appendices} % 2022 ver.
  % Add some space after the title.
- \vspace{1ex} %
+ \vskip 0.5in %
  % Start the automatic table of contents features.
- \begin{singlespace} %
+ \begin{onehalfspace} %
   \@starttoc{loa}\if@restonecol\twocolumn\fi %
- \end{singlespace} %
+ \end{onehalfspace} %
 }
 
 % Renew the command that starts the appendices.
@@ -871,7 +937,7 @@
  % Stop adding sections to the table of contents.
  \addtocontents{toc}{\protect\setcounter{tocdepth}{1}} %
  % Header for appendices.
- \renewcommand{\@chapapp}{APPENDIX} %
+ \renewcommand{\@chapapp}{Appendix} %
  % Renew the chapter and section labels.
  \let\@chapter\@chapter@appendix %
 }
@@ -887,7 +953,8 @@
  % Add a bookmark manually.
  \pdfbookmark[0]{#1}{#2} %
  % Add to the list of appendices rather than toc.
- \addcontentsline{loa}{chapter}{\protect\numberline{\thechapter}#1} %
+ \addcontentsline{loa}{chapter}
+ {\@chapapp\ \protect\numberline{\thechapter}\ \hspace{0.15em} #1} %
  % Save the chapter number.
  \chaptermark{#1} %
  % Add extra space to the lists of figures and tables and maps.
@@ -932,15 +999,16 @@
   \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
  \fi %
  % Add the title
- \centerline{\large\bf LIST OF ABBREVIATIONS} %
+ %\centerline{\large\bf LIST OF ABBREVIATIONS} %
+ \centerline{\bf List of Abbreviations} % 2022 ver.
  % Add some space after the title.
- \vspace{1ex} %
+ \vskip 0.5in %
  % Start the automatic abbreviations feature.
- \begin{singlespace} %
+ \begin{onehalfspace} %
   \begin{acronym} %
    \@abbrevs %
   \end{acronym} %
- \end{singlespace} %
+ \end{onehalfspace} %
 }
 
 
@@ -971,15 +1039,16 @@
   \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
  \fi %
  % Add the title
- \centerline{\large\bf LIST OF ACRONYMS} %
+ % \centerline{\large\bf LIST OF ACRONYMS} %
+ \centerline{\bf List of Acronyms} % 2022 ver.
  % Add some space after the title.
- \vspace{1ex} %
+ \vskip 0.5in %
  % Start the automatic abbreviations feature.
- \begin{singlespace} %
+ \begin{onehalfspace} %
   \begin{acronym} %
    \@acronyms %
   \end{acronym} %
- \end{singlespace} %
+ \end{onehalfspace} %
 }
 
 
@@ -1010,15 +1079,16 @@
   \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
  \fi %
  % Add the title
- \centerline{\large\bf LIST OF SYMBOLS} %
+ % \centerline{\large\bf LIST OF SYMBOLS} %
+ \centerline{\bf List of Symbols} % 2022 ver.
  % Add some space after the title.
- \vspace{1ex} %
+ \vskip 0.5in %
  % Start the automatic symbols feature.
- \begin{singlespace} %
+ \begin{onehalfspace} %
   \begin{acronym} %
    \@symbols %
   \end{acronym} %
- \end{singlespace} %
+ \end{onehalfspace} %
 }
 
 
@@ -1066,7 +1136,7 @@
   % Formatting
   \bfseries
   % Add the heading.
-  ABSTRACT \\ \vspace{5ex} %
+  Abstract \\ \vskip 0.5in %
   % Add the title of the dissertation.
   \normalsize %
  \end{center} %
@@ -1085,28 +1155,51 @@
 \let\@tex@bibliography\bibliography
 
 % Change the bibliography header.
-\renewcommand*{\bibname}{\centerline{\large BIBLIOGRAPHY}}
+\renewcommand*{\bibname}{
+ \if@umich@referencesperchapter{\large References} 
+ \else{\centerline{\large Bibliography}}
+ \fi
+}
 
 % Create a new command for the bibliography.
 \renewcommand*{\bibliography}[1]{ %
- % Update the page format.
- \if@umich@report %
-  % Eliminate vertical space.
-  \ \\[-2ex] %
- \else %
-  % Switch to single spacing
+ \if@umich@referencesperchapter{
+  % Move to new page.
+  \clearpage %
   \singlespacing %
- \fi %
- % Move to new page.
- \clearpage %
- % Create a pdf anchor.
- \phantomsection %
- % Add to table of contents.
- \addcontentsline{toc}{chapter}{Bibliography} %
- % Load the bibliography.
- \@tex@bibliography{#1} %
+  % Create a pdf anchor, but does not add to toc
+  \phantomsection %
+  \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
+  \vspace{-4.5ex}
+  % Set extra space between entries
+  \setlength{\bibsep}{\baselineskip}
+  \raggedright
+  % Load the bibliography.
+  \@tex@bibliography{#1} %
+ }
+ \else{
+  % Update the page format.
+  \if@umich@report %
+    % Eliminate vertical space.
+    \ \\[-2ex] %
+  \else %
+    % Switch to single spacing
+    \singlespacing %
+  \fi %
+  % Move to new page.
+  \clearpage %
+  % Create a pdf anchor.
+  \phantomsection %
+  % Add to table of contents.
+  \addcontentsline{toc}{chapter}{Bibliography} %
+  % Load the bibliography.
+  \@tex@bibliography{#1} %
+ }
+ \fi
 }
+ 
 
+\begin{comment} % This is for biblatex only
 % FIXME: follow a similar approach as above and redefine the printbibliography command
 % Create a new command for printing the bibliography with biblatex
 \newcommand*{\bibsection}{ %
@@ -1126,16 +1219,23 @@
  \addcontentsline{toc}{chapter}{Bibliography} %
  % FIXME: why print our own heading?
  \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
- \center{\bfseries BIBLIOGRAPHY}
+ \begin{center} %
+ % Formatting
+ \bfseries
+ % Add the heading.
+ Bibliography \\ \vskip 0.5in %
+ % Add the title of the dissertation.
+ \normalsize %
+ \end{center} %
  % Load the bibliography.
  \printbibliography[heading=none] %
 }
-
+\end{comment}
 
 %% ---- CHAPTER HEADINGS -----------------------------------------------
 
 % Change the chapter headings to uppercase.
-\renewcommand{\@chapapp}{CHAPTER}
+\renewcommand{\@chapapp}{Chapter}
 
 % Change the formatting of the first page of each chapter.
 \renewcommand{\@makechapterhead}[1]{%
@@ -1148,22 +1248,24 @@
   % Check for chapter overflow.
   \ifnum \c@secnumdepth >\m@ne %
    % CHAPTER and number
-   \centerline{\large\bf \@chapapp{} \thechapter} \par %
+   \centerline{\large\bf \@chapapp{} \thechapter\hspace{1em}#1} \par %
    % Vertical space
-   \vskip 0.3in \fi %
+   %\vskip 0.3in 
+   \fi %
    % Insert the title of the chapter.
-   \begin{center} \large\bf #1 \end{center} %
+   %\begin{center} \large\bf #1 \end{center} %
    % Vertical space after the title
-   \nobreak \vskip 0.3in %
+   \nobreak \vskip 0.5in %
  } %
 }
 
 %% ---- SECTION HEADINGS -----------------------------------------------
 \RequirePackage{titlesec}
 
-\titleformat*{\section}{\center\bfseries}
-\titleformat*{\subsection}{\bfseries}
-\titleformat*{\subsubsection}{\bfseries}
+%\titleformat*{\section}{\center\bfseries}
+\titleformat*{\section}{\bfseries}
+\titleformat*{\subsection}{\itshape\bfseries}
+\titleformat*{\subsubsection}{\itshape\bfseries}
 
 
 %% ---- LINKS ----------------------------------------------------------
@@ -1234,13 +1336,29 @@
  % Insert the table of contents.
  \tableofcontents %
  % Insert the list of figures.
- \if@umich@listoffigures\listoffigures\fi %
+ \if@umich@listoffigures{%
+  \let\oldnumberline\numberline%
+  \renewcommand{\numberline}{\figurename~\oldnumberline}%
+  \listoffigures%
+ }\fi %
  % Insert the list of tables.
- \if@umich@listoftables\listoftables\fi %
+ \if@umich@listoftables{%
+  \let\oldnumberline\numberline%
+  \renewcommand{\numberline}{\tablename~\oldnumberline}%
+  \listoftables%
+ }\fi %
  % Insert the list of maps.
- \if@umich@listofmaps\listofmaps\fi %
+ \if@umich@listofmaps{%
+  \let\oldnumberline\numberline%
+  \renewcommand{\numberline}{Map~\oldnumberline}%
+  \listofmaps%
+ }\fi %
  % Insert the list of illustrations.
- \if@umich@listofillustrations\listofillustrations\fi %
+ \if@umich@listofillustrations{%
+  \let\oldnumberline\numberline%
+  \renewcommand{\numberline}{Illustration~\oldnumberline}%
+  \listofillustrations%
+ }\fi %
  % Insert the list of appendices.
  \if@umich@listofappendices\listofappendices\fi %
  % Insert the list of abbreviations.
@@ -1260,8 +1378,8 @@
  % Use Arabic numerals.
  \renewcommand{\thepage}{\arabic{page}} %
  % Add the word 'Chapter' to the table of contents.
- \addtocontents{toc}{\vspace{1.3ex}\noindent %
- {\bf Chapter}\vspace{1.3ex}} %
+ % \addtocontents{toc}{\vspace{1.3ex}\noindent %
+ % {\bf Chapter}\vspace{1.3ex}} %
  % Use the correct formatting.
  \if@umich@thesis %
   % Use 1.5 spacing

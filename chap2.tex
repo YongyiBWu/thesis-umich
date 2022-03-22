@@ -1,0 +1,48 @@
+\chapter{Using Abbreviation/Acronym/Symbol}
+The list of abbreviations is initialized before we begin the document in 
+\texttt{.tex} file. The word \ac{ABBREV1} is mentioned here, so it appears 
+in the list of abbreviations. Referring to \ac{ABBREV1} a second time shows 
+only the abbreviation. Unmentioned items in the initialization of "abbreviations" 
+is not listed. 
+
+This is a test for citation~\cite{Knuth:1986:TEX:1102013}
+
+This is a test for figure: Figure~\ref{fig:testfig1} Figure~\ref{fig:testfig2}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width = 0.8 in]{U-M_Logo-Hex.png}
+    \caption
+        [short title 1] % short title in lof
+        {long description 2} % long description
+    \label{fig:testfig1}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width = 0.5 in]{U-M_Logo-Hex.png}
+    \caption
+        [short title 2] % short title in lof
+        {long description 2} % long description
+    \label{fig:testfig2}
+\end{figure}
+
+This is a test for table: Table~\ref{table:tab1}
+
+\begin{table}[b!]
+    \begin{center}
+        \caption[Table 1]{Long description table 1}
+        \begin{tabular}{l|cr}
+            \hline \hline
+            Parameter & Best-fit Value & Uncertainty $\sigma$\\
+            \hline
+            $\epsilon$ & 1.0 & 0.2 \\
+            $\theta$ & 2.0 & 0.3 \\
+            $\alpha$ & 3.0 & 0.5 \\
+            \hline \hline
+        \end{tabular}
+        \label{table:tab1}
+    \end{center}
+\end{table}
+
+
+\bibliographystyle{apsrev4-2custom}
+\bibliography{thesis-bib}
