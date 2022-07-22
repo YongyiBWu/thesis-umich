@@ -87,6 +87,7 @@
 \newif\if@umich@listofabbrevs
 \newif\if@umich@listofsymbols
 \newif\if@umich@listofacronyms
+\newif\if@umich@listofalgorithms
 \newif\if@umich@copyright
 \newif\if@umich@frontispiece
 \newif\if@umich@dedication
@@ -148,12 +149,14 @@
 \RequirePackage{amsmath}
 \RequirePackage{amsfonts}
 \RequirePackage{amssymb}
+\RequirePackage{physics}
 
 % This loads the proper graphics package.
 \RequirePackage{graphicx}
 
 % This is useful for complex figures.
-\RequirePackage{subcaption}
+\RequirePackage[labelformat=simple]{subcaption}
+\renewcommand\thesubfigure{(\alph{subfigure})}
 
 % This changes the font.
 \RequirePackage{times}
@@ -187,9 +190,9 @@
 
 % This package will allow for some sections to be in
 % different numbers of columns.
-\if@umich@report
- \RequirePackage{multicol}
-\fi
+%\if@umich@report
+\RequirePackage{multicol}
+%\fi
 
 % indent first (and all) paragraphs by 0.5 inch
 \RequirePackage{indentfirst}
@@ -203,8 +206,24 @@
 \captionsetup{font={small,singlespacing}}
 
 % use thispackage if references for each chapter
-\RequirePackage[numbers,square,sectionbib]{natbib} 
-\RequirePackage{chapterbib} 
+\RequirePackage[numbers,square,sectionbib,sort&compress]{natbib} 
+\RequirePackage{chapterbib}
+
+% set separation of enumerate
+\RequirePackage{enumitem}
+
+% braket
+\RequirePackage{braket}
+
+%footnote below misc
+\RequirePackage[bottom]{footmisc}
+
+% pseudo codes packages
+\RequirePackage[chapter]{algorithm}
+\RequirePackage{algpseudocode}
+%\algtext*{EndWhile}% Remove "end while" text
+%\algtext*{EndIf}% Remove "end if" text
+%\algtext*{EndFunction}
 
 %% ---- FORMATTING -----------------------------------------------------
 % Set the page style to fancy.
@@ -319,11 +338,11 @@
   % Center the title page as well.
   \begin{center} %
    % Put the title itself in 1.5-spaced format.
-   \begin{onehalfspacing}
+   \begin{singlespace}
     % Insert the title.
     {\Large\bfseries\inserttitle\par}%chaanged to make spacing work
-   \end{onehalfspacing}
-   \vspace{4ex} %
+   \end{singlespace}
+   \vspace{5ex} %
    % Vertical rubber space
 %   \vfill %
    % Print the word 'by'.
@@ -689,6 +708,7 @@
 \newcommand{\showlistofappendices}{\@umich@listofappendicestrue}
 \newcommand{\showlistofabbreviations}{\@umich@listofabbrevstrue}
 \newcommand{\showlistofacronyms}{\@umich@listofacronymstrue}
+\newcommand{\showlistofalgorithms}{\@umich@listofalgorithmstrue}
 \newcommand{\showlistofsymbols}{\@umich@listofsymbolstrue}
 \newcommand{\usereferencesperchapter}{\@umich@referencesperchaptertrue}
 
@@ -918,7 +938,7 @@
  \vskip 0.5in %
  % Start the automatic table of contents features.
  \begin{onehalfspace} %
-  \@starttoc{loa}\if@restonecol\twocolumn\fi %
+  \@starttoc{lap}\if@restonecol\twocolumn\fi %
  \end{onehalfspace} %
 }
 
@@ -928,6 +948,8 @@
  \clearpage %
  % Renew the counters.
  \renewcommand*{\thechapter}{\Alph{chapter}} %
+ \renewcommand*{\thesection}{\Alph{chapter}.\arabic{section}} %
+ \renewcommand*{\thesubsection}{\Alph{chapter}.\arabic{section}.\arabic{subsection}} %
  % Start over the chapter counter.
  \setcounter{chapter}{0} %
  % Add a pdf anchor.
@@ -953,16 +975,16 @@
  % Add a bookmark manually.
  \pdfbookmark[0]{#1}{#2} %
  % Add to the list of appendices rather than toc.
- \addcontentsline{loa}{chapter}
+ \addcontentsline{lap}{chapter}
  {\@chapapp\ \protect\numberline{\thechapter}\ \hspace{0.15em} #1} %
  % Save the chapter number.
  \chaptermark{#1} %
  % Add extra space to the lists of figures and tables and maps.
- \addtocontents{lof}{\protect\addvspace{8pt}} %
- \addtocontents{lot}{\protect\addvspace{8pt}} %
- \addtocontents{lom}{\protect\addvspace{8pt}} %
- \addtocontents{lop}{\protect\addvspace{8pt}} %
- \addtocontents{loi}{\protect\addvspace{8pt}} %
+ %\addtocontents{lof}{\protect\addvspace{8pt}} %
+ %\addtocontents{lot}{\protect\addvspace{8pt}} %
+ %\addtocontents{lom}{\protect\addvspace{8pt}} %
+ %\addtocontents{lop}{\protect\addvspace{8pt}} %
+ %\addtocontents{loi}{\protect\addvspace{8pt}} %
  % Produce the appropriate headings for the first page.
  \if@twocolumn %
   \@topnewpage[\@makechapterhead{#2}] %
@@ -986,7 +1008,7 @@
 % This sets the formatting for the abbreviations.
 \newcommand*{\l@abbreviation}{\@dottedtocline{1}{0em}{2.5em}}
 
-% This sets the formatting of the list of tables page.
+% This sets the formatting of the list of abbrevs page.
 \newcommand*{\listofabbreviations}{%
  % Move to new page.
  \newpage %
@@ -1004,11 +1026,13 @@
  % Add some space after the title.
  \vskip 0.5in %
  % Start the automatic abbreviations feature.
+ \begin{multicols}{2}
  \begin{onehalfspace} %
-  \begin{acronym} %
+  \begin{acronym}[]\itemsep 0pt
    \@abbrevs %
   \end{acronym} %
  \end{onehalfspace} %
+ \end{multicols}
 }
 
 
@@ -1045,7 +1069,7 @@
  \vskip 0.5in %
  % Start the automatic abbreviations feature.
  \begin{onehalfspace} %
-  \begin{acronym} %
+  \begin{acronym}[]\itemsep 0pt
    \@acronyms %
   \end{acronym} %
  \end{onehalfspace} %
@@ -1085,9 +1109,39 @@
  \vskip 0.5in %
  % Start the automatic symbols feature.
  \begin{onehalfspace} %
-  \begin{acronym} %
+  \begin{acronym}[]\itemsep 0pt
    \@symbols %
   \end{acronym} %
+ \end{onehalfspace} %
+}
+
+%% ---- LIST OF AlGORITHMS ------------------------------------------------
+% Changes algorithm block name 
+\renewcommand{\ALG@name}{Pseudo Code Snippet}% Update algorithm name
+
+% This sets the formatting for the algorithms.
+\newcommand*{\l@algorithm}{\@dottedtocline{1}{0em}{2.5em}}
+
+% This sets the formatting of the list of algorithms page.
+\newcommand*{\listofalgorithmstemp}{%
+ % Move to new page.
+ \newpage %
+ % Add this page to the table of contents.
+ \phantomsection\addcontentsline{toc}{chapter}{List of Algorithms} %
+ % Use front page styling.
+ \frntpg %
+ % Larger upper margin for first page of table (thesis only)
+ \if@umich@thesis %
+  \begin{minipage}{0.8\textwidth} \vspace{1in} \end{minipage} \\ %
+ \fi %
+ % Add the title
+ % \centerline{\large\bf LIST OF SYMBOLS} %
+ \centerline{\bf List of Algorithms} % 2022 ver.
+ % Add some space after the title.
+ \vskip 0.5in %
+ % Start the automatic symbols feature.
+ \begin{onehalfspace} %
+  \@starttoc{loa}\if@restonecol\twocolumn\fi %
  \end{onehalfspace} %
 }
 
@@ -1165,7 +1219,7 @@
 \renewcommand*{\bibliography}[1]{ %
  \if@umich@referencesperchapter{
   % Move to new page.
-  \clearpage %
+  %\clearpage %
   \singlespacing %
   % Create a pdf anchor, but does not add to toc
   \phantomsection %
@@ -1269,6 +1323,10 @@
 
 
 %% ---- LINKS ----------------------------------------------------------
+
+% cross reference
+\RequirePackage{xr-hyper}
+
 % This loads a package that allows extra colors for links.
 \RequirePackage[usenames,dvipsnames]{xcolor}
 % Custom color for references.
@@ -1303,7 +1361,6 @@
   urlcolor=Blue %
  }
 \fi
-
 
 %% ---- INITIALIZATION -------------------------------------------------
 % Commands to be placed after \begin{document}
@@ -1367,6 +1424,12 @@
  \if@umich@listofacronyms\listofacronyms\fi %
  % Insert the list of symbols.
  \if@umich@listofsymbols\listofsymbols\fi %
+ % Insert the list of algorithms.
+ \if@umich@listofalgorithms{%
+  \let\oldnumberline\numberline%
+  \renewcommand{\numberline}{Algorithm~\oldnumberline}%
+  \listofalgorithmstemp%
+ }\fi %
  % Insert the abstract.
  \if@umich@abstract\abstractpage\fi %
  % Move to next page.

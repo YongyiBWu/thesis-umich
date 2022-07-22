@@ -2167,6 +2167,33 @@ FUNCTION {format.btitle}
   if$
 }
 
+FUNCTION {format.atitle}
+{ title 
+  duplicate$ empty$ 'skip$ { "t" change.case$ } if$
+  duplicate$ empty$ 'skip$ { "t" string.enquote } if$
+  duplicate$ "title" bibinfo.check swap$
+  duplicate$ empty$ 'pop$
+    {
+      punctuation.yes 'punctuation.state :=
+      pop$
+      select.language
+    }
+  if$
+}
+
+% FUNCTION {format.atitle}
+% {
+%   booktitle duplicate$ empty$ { pop$
+%       title
+%   } 'skip$ if$
+%   "title" bibinfo.check
+%   duplicate$ empty$ 'skip$
+%     {
+%       title string.enquote
+%     }
+%   if$
+% }
+
 FUNCTION {either.or.check}
 { empty$
     'pop$
@@ -2976,22 +3003,40 @@ FUNCTION {mastersthesis}
   fin.entry
 }
 
+% FUNCTION {misc}
+% { output.bibitem
+%   format.authors output
+%   author format.key output
+%   new.block.comma
+%   link.open
+%   format.title
+%   output
+%   link.shut
+%   new.block.comma
+%   howpublished "howpublished" bibinfo.check output
+%   format.date.output
+%   new.block.comma
+%   new.sentence.comma
+%   format.note output
+%   format.eprint output
+%   fin.entry
+% }
+
 FUNCTION {misc}
 { output.bibitem
-  format.authors output
+  format.authors "author" output.check
   author format.key output
   new.block.comma
   link.open
-  format.title
-  output
+  format.atitle
+  "title" output.check
   link.shut
   new.block.comma
-  howpublished "howpublished" bibinfo.check output
-  format.date.output
+  format.date output
   new.block.comma
+  format.url output
   new.sentence.comma
   format.note output
-  format.eprint output
   fin.entry
 }
 

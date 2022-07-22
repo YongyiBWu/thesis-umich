@@ -9,9 +9,10 @@
 %%%%
 
 % includeonly controls partial output (only chapters included are built)
-\includeonly{chap1,chap2,appendix1}
+\includeonly{chap1,chap2,appendix1,appendix2}
 
-\title{\LaTeX~Template for Rackham Dissertations}
+\title{\LaTeX~Template for 
+\texorpdfstring{\\ Rackham Dissertations}{}}% If multiple lines are wanted
 
 % Author name
 \author{Jane R. Doe}
@@ -73,6 +74,7 @@
 \showlistofabbreviations
 %\showlistofacronyms % Build errors can occur if an empty list is turned on
 %\showlistofsymbos
+\showlistofalgorithms
 
 \usereferencesperchapter
 
@@ -104,5 +106,9 @@
 
 \appendix
 \include{appendix1}
+\include{appendix2}
 
+% If a bibliography of the entire dissertation is preferred
+%\bibliographystyle{alpha}
+%\bibliography{appen_bib/biblio.bib}
 \end{document}

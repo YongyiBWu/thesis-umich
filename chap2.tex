@@ -1,9 +1,11 @@
-\chapter{Using Abbreviation/Acronym/Symbol}
+\chapter{Using Abbreviation/Acronym/Symbol/Figure/Table/Algorithm}
 The list of abbreviations is initialized before we begin the document in 
 \texttt{.tex} file. The word \ac{ABBREV1} is mentioned here, so it appears 
 in the list of abbreviations. Referring to \ac{ABBREV1} a second time shows 
 only the abbreviation. Unmentioned items in the initialization of "abbreviations" 
 is not listed. 
+
+\section{Section Title}
 
 This is a test for citation~\cite{Knuth:1986:TEX:1102013}
 
@@ -43,6 +45,15 @@ This is a test for table: Table~\ref{table:tab1}
     \end{center}
 \end{table}
 
+
+This is a test for algorithm: Algorithm~\ref{alg:alg1}
+
+\begin{algorithm}[b!]
+    \caption{Algorithm 1}\label{alg:alg1}
+    \begin{algorithmic}[1]
+        \State \textbf{Write} an algorithm \Comment{Add comment here}
+    \end{algorithmic}
+\end{algorithm}
 
 \bibliographystyle{apsrev4-2custom}
 \bibliography{thesis-bib}
