@@ -40,7 +40,7 @@ thesis-sample.tex.
 | 2021.05.04 | Zhan Jiang        | Added comments. Added codes for Roman Chapter numbers in tex file |
 | 2021.05.05 | Zhan Jiang        | Debugged Prologue Page. Eliminated all compiling warnings. Removed `minipage` environment in front pages to support multiple-page text.|
 | 2022.03.22 | Yongyi Wu         | Changes to match the 2022 guidelines (title fonts, spacing, margins, etc.); closely matches the official MS Word template now. Improved TOC and lists. Bibliography changed to references for each chapter, better matching the need for conventions in physics. References are using the style of apsrev4-2, with the only change that 3+ authors show "1st author, et al." in this .bst file
-| 2022.07.21 | Yongyi Wu         | Address minor changes to meet the requirements of the 2022 guidelines. Added algorithm examples
+| 2022.07.21 | Yongyi Wu         | Address minor changes to meet the requirements of the 2022 guidelines. Added algorithm examples. Fixed issue with first appendix section title showing in toc
 
 ## Comments from Umang
 This is a LaTeX template that tries (but does not guarantee) to meet the requirements of the Rackham Graduate School at the University of Michigan.

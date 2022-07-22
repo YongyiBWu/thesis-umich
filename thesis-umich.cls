@@ -966,6 +966,9 @@
 
 % Make a special chapter command for appendices.
 \def\@chapter@appendix[#1]#2{ %
+ % Fixing the issue with appendix section in toc. Not extensively 
+ % tested but seems to work in the minimal working example 
+ \addtocontents{toc}{\setcounter{tocdepth}{1}}
  % Increase the chapter letter.
  \refstepcounter{chapter} %
  % Print a line to the .log file.
